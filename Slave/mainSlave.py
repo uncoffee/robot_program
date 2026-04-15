@@ -13,26 +13,55 @@ led.led_power_on(5)
 class kansui:
     def __init__(self):
         self.s_i2c = i2c_slave(0,sda=0,scl=1,slaveAddress=0x41) #i2c通信できるようにインスタンス化する
-        self.reco = None #受信内容(0)
+        self.set = None #受信内容(0)
         self.send = None #返信内容(1)
         self.run_time = 5
+        self.wifi_info = {"ssid":None, "key": None}
 
+    #命令を確認して実行
     def check(self):
+        #聞き専
         if self.s_i2c.any():
             get = self.s_i2c.get()
             led.led_power_on(len(get))#受信したbit分光る。
-            if get == 0x1:
+            if not self.set == None:
+                self.set = get
+                pass
+
+            #来たら動く
+            if get == 0x:
                 self.motor()
 
-            if get == 0x2:
+            if get == 0x:
+                self.set_wifi()
+
+            if get == 0x:
+                self.on_wifi()
+
+            if get == 0x:
+                self.off_wifi()
+
+            #返信準備をする。
+            if get == 0x:
                 self.wet()
 
+            if get == 0x:
+                self.temp
+
+        #返信の要求
         if self.s_i2c.anyRead():
             self.s_i2c.put(self.send & 0xff)
             self.send = None
     
+    #実際のプログラム
     def motor(self):
         kikupico.equipment.motor.run(self.run_time)
 
     def wet(self):
         self.send = kikupico.sensor.soil.get()
+
+    def temp(self):
+        self.send = kikupico.sensor.temperature.get()
+
+    def on_wifi(self):
+        kikupico 

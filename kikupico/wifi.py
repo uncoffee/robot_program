@@ -11,7 +11,7 @@ wifipin = machine.Pin(23, machine.Pin.OUT)
 
 __limit = 10
 
-def connect():
+def connect(ssid,key):
     try:
         wifipin.high()
         nic.active(True)
