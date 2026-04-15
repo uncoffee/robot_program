@@ -28,24 +28,24 @@ class kansui:
                 self.set = get
                 pass
 
-            #来たら動く
-            if get == 0x:
+            #聞き専
+            if get == 1:
                 self.motor()
 
-            if get == 0x:
+            if get == :
                 self.set_wifi()
 
-            if get == 0x:
+            if get == :
                 self.on_wifi()
 
-            if get == 0x:
+            if get == :
                 self.off_wifi()
 
-            #返信準備をする。
-            if get == 0x:
+            #返信専
+            if get == :
                 self.wet()
 
-            if get == 0x:
+            if get == :
                 self.temp
 
         #返信の要求
@@ -63,5 +63,15 @@ class kansui:
     def temp(self):
         self.send = kikupico.sensor.temperature.get()
 
+    def set_wifi(self):
+        get = self.s_i2c.get()
+        for i in range(get):
+            
+            
+
     def on_wifi(self):
-        kikupico 
+        kikupico.wifi.connect(self.wifi_info["ssid"],self.wifi_info["key"])
+
+    def off_wifi(self):
+        kikupico.wifi.disconnect()
+        
